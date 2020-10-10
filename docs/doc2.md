@@ -7,7 +7,7 @@ title: FA 1.2 Formal specification
 
 No token is minted: the total number of tokens is equal to the initial totalsupply number of tokens.
 
-```archetype {1}
+```archetype {0}
 specification {
   s1: ledger.sum(tokens) = totalsupply;
 }
@@ -50,7 +50,7 @@ postcondition transfer_p2 {
 * No effect on ledger when `%from` is equal to `%to`.
 
 ```archetype {2}
-specification transfer_p3 {
+postcondition transfer_p3 {
   %from = %to ->
   ledger = before.ledger
 }
@@ -59,10 +59,22 @@ specification transfer_p3 {
 * Tokenholders other than %from and %to, are not modified nor added to ledger.
 
 ```archetype {5}
-specification transfer_p4 {
+postcondition transfer_p4 {
   forall tokenholder in ledger,
   tokenholder.holder <> %from ->
   tokenholder.holder <> %to ->
   before.ledger[tokenholder.holder] = some(tokenholder)
 }
 ```
+
+* Tokenholders other than `%from` and `%to`, are not modified nor added to `ledger`.
+
+```archetype {2,5}
+postcondition transfer_p5 {
+  forall tokenholder in ledger,
+  tokenholder.holder <> %from ->
+  tokenholder.holder <> %to ->
+  before.ledger[tokenholder.holder] = some(tokenholder)
+}
+```
+

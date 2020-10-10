@@ -5,17 +5,16 @@ sidebar_label: FA 1.2 implementation
 slug: /
 ---
 
-FA 1.2 is the fungible token specification for Tezos :
+FA 1.2 is the fungible [token specification](https://gitlab.com/tzip/tzip/blob/master/proposals/tzip-7/tzip-7.md) for Tezos.
 
 
-
-## Totalsupply
+### totalsupply
 
 ```archetype
 constant totalsupply : nat = 10_000_000
 ```
 
-## Ledger
+### ledger
 
 ```archetype {1}
 asset ledger identified by holder to big_map {
@@ -26,7 +25,7 @@ asset ledger identified by holder to big_map {
 }
 ```
 
-## Allowance
+### allowance
 
 ```archetype {1}
 asset allowance identified by addr_owner addr_spender to big_map {
@@ -36,7 +35,7 @@ asset allowance identified by addr_owner addr_spender to big_map {
 }
 ```
 
-## Transfer
+### transfer
 
 ```archetype {1}
 entry %transfer (%from : address, %to : address, value : nat) {
@@ -55,7 +54,7 @@ entry %transfer (%from : address, %to : address, value : nat) {
 }
 ```
 
-## Approve
+### approve
 
 ```archetype {1}
 entry approve(spender : address, value : nat) {
@@ -68,15 +67,15 @@ entry approve(spender : address, value : nat) {
 }
 ```
 
-## getAllowance
+### getAllowance
 
 ```archetype {1}
 getter getAllowance (owner : address, spender : address) : nat {
   return (allowance[(owner, spender)].amount)
 }
-````
+```
 
-## getBalance
+### getBalance
 
 ```archetype {1}
 getter getBalance (owner : address) : nat {
@@ -84,7 +83,7 @@ getter getBalance (owner : address) : nat {
 }
 ```
 
-## getTotalSupply
+### getTotalSupply
 
 ```archetype {1}
 getter getTotalSupply () : nat {
