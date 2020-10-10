@@ -1,0 +1,15 @@
+.separator {
+    padding-top:0px;
+    padding-bottom: 0px;
+  }
+
+.top_separator {
+    padding-top:0px;
+    padding-bottom: 20px;
+  }
+
+.bottom_separator {
+    padding-top:0px;
+    padding-bottom: 10px;
+    border-top: 1px solid #282A36;
+  }

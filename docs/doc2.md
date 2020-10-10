@@ -3,6 +3,8 @@ id: doc2
 title: FA 1.2 Formal specification
 ---
 
+import Separator from '@site/src/components/Separator';
+
 ## Contract invariant
 
 No token is minted: the total number of tokens is equal to the initial totalsupply number of tokens.
@@ -17,7 +19,9 @@ specification {
 
 ### Effect on `ledger`
 
-* When the `%to` address is different from the `%from` address, the number of tokens `%to` possesses is decread by value.
+<Separator />
+
+When the `%to` address is different from the `%from` address, the number of tokens `%to` possesses is decread by value.
 
 ```archetype {2,6}
 postcondition transfer_p1 {
@@ -31,7 +35,9 @@ postcondition transfer_p1 {
 }
 ```
 
-* When the `%to` address is different from the `%from` address, the number of tokens `%to` possesses is increased by value when `%to` is already registered in the ledger, and set to value otherwise. Anyway, `%to` is registered in ledger.
+<Separator />
+
+When the `%to` address is different from the `%from` address, the number of tokens `%to` possesses is increased by value when `%to` is already registered in the ledger, and set to value otherwise. Anyway, `%to` is registered in ledger.
 
 ```archetype {2,6,9}
 postcondition transfer_p2 {
@@ -47,7 +53,9 @@ postcondition transfer_p2 {
 }
 ```
 
-* No effect on ledger when `%from` is equal to `%to`.
+<Separator />
+
+No effect on ledger when `%from` is equal to `%to`.
 
 ```archetype {2}
 postcondition transfer_p3 {
@@ -56,7 +64,9 @@ postcondition transfer_p3 {
 }
 ```
 
-* Tokenholders other than %from and %to, are not modified nor added to ledger.
+<Separator />
+
+Tokenholders other than %from and %to, are not modified nor added to ledger.
 
 ```archetype {5}
 postcondition transfer_p4 {
@@ -67,7 +77,9 @@ postcondition transfer_p4 {
 }
 ```
 
-* Tokenholders other than `%from` and `%to`, are not modified nor added to `ledger`.
+<Separator />
+
+Tokenholders other than `%from` and `%to`, are not modified nor added to `ledger`.
 
 ```archetype {2,5}
 postcondition transfer_p5 {
