@@ -38,9 +38,15 @@ var theme = {
       color: "rgb(255, 121, 198)"
     }
   }, {
-    types: ["keyword", "variable"],
+    types: ["keyword"],
     style: {
       color: "rgb(189, 147, 249)",
+      fontStyle: "italic"
+    }
+  }, {
+    types: ["declaration"],
+    style: {
+      color: "rgb(249, 162, 2)",
       fontStyle: "italic"
     }
   }, {
@@ -52,6 +58,12 @@ var theme = {
     types: ["comment"],
     style: {
       color: "rgb(98, 114, 164)"
+    }
+  }, {
+    types: ["boolean"],
+    style: {
+      color: "rgb(210,50,50)",
+      fontStyle: "italic"
     }
   }, {
     types: ["attr-name"],
