@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: '/completium/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'eukera', // Usually your GitHub org/user name.
+  organizationName: 'edukera', // Usually your GitHub org/user name.
   projectName: 'completium', // Usually your repo name.
   themeConfig: {
     navbar: {
@@ -18,12 +18,12 @@ module.exports = {
         {
           to: 'docs/',
           activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
+          label: 'Tezos Smart Contracts',
+          position: 'right',
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
+        //{to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/edukera/completium',
           label: 'GitHub',
           position: 'right',
         },
@@ -77,6 +77,9 @@ module.exports = {
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+    },
+    prism: {
+      theme: require('prism-react-renderer/themes/dracula'),
     },
   },
   presets: [
