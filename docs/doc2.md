@@ -1,6 +1,6 @@
 ---
 id: doc2
-title: FA 1.2 Formal specification
+title: Formal specification
 ---
 
 import Separator from '@site/src/components/Separator';
@@ -14,6 +14,10 @@ ledger.sum(tokens) = totalsupply
 ```
 
 ## `transfer` postconditions
+
+```archetype
+specification entry %transfer (%from : address, %to : address, value : nat)
+```
 
 ### Effect on `ledger`
 
@@ -94,5 +98,253 @@ let some after_from_caller = allowance[(%from,caller)] in
   }
 otherwise false
 otherwise true
+```
+
+<Separator />
+
+No effect on `allowance` when `caller` is equal to `%from`.
+
+```archetype
+caller = %from -> allowance = before.allowance
+```
+
+<Separator />
+
+Allowed amounts other than those associated to `%from` and `caller` are identical.
+
+```archetype {2,3}
+forall a in allowance,
+a.addr_owner <> %from and a.addr_spender <> caller ->
+before.allowance[(a.addr_owner,a.addr_spender)] = some(a)
+```
+
+<Separator />
+
+No allowance record is added or removed.
+
+```archetype
+removed.allowance.isempty() and added.allowance.isempty()
+```
+
+### Explicit `fail`
+
+<Separator />
+
+When the entry fails with message `"NotEnoughBalance"`, value is stricly greater than the number of tokens of `%to`. Cannot spend more than you own.
+
+```archetype
+fails with (msg : string) :
+  let some after_ledger_from = ledger[%from] in
+    msg = "NotEnoughBalance" and
+    after_ledger_from.tokens < value
+  otherwise true
+```
+
+<Separator />
+
+When the entry fails with message `"NotEnoughAllowance"`, `caller` is different from %from and value is stricly greater than the allowed amount for `%from` and `caller`. A spender cannot spend more than allowed.
+
+```archetype
+fails with (msg : string * (nat * nat)) :
+  let some after_allowance_from_caller = allowance[(%from,caller)] in
+    msg = ("NotEnoughAllowance", (value, after_allowance_from_caller.amount)) and
+    caller <> %from and
+    after_allowance_from_caller.amount < value
+  otherwise false
+```
+
+### Operations
+
+No operation generated.
+
+```archetype
+length(operations) = 0
+```
+
+## `approve` postconditions
+
+```archetype
+specification entry approve(spender : address, value : nat)
+```
+
+### Effect on `ledger`
+
+No effect on ledger.
+
+```archetype
+ledger = before.ledger
+```
+
+### Effect on `allowance`
+
+<Separator />
+
+Allowed amount of tokens spendable by `spender` on the behalf of `caller` is set to `value`.
+
+```archetype {4,8,9,10}
+let some after_allowance_caller_spender = allowance[(caller,spender)] in
+let some before_allowance_caller_spender = before.allowance[(caller,spender)] in
+  after_allowance_caller_spender = { before_allowance_caller_spender with
+    amount = value
+  }
+otherwise
+  after_allowance_caller_spender = {
+    addr_owner = caller;
+    addr_spender = spender;
+    amount = value
+  }
+otherwise false
+```
+
+<Separator />
+
+Other allowed amounts than the allowed amount of tokens spendable by `spender` on the behalf of `caller`, are unchanged.
+
+```archetype {3}
+forall a in allowance,
+  (a.addr_owner, a.addr_spender) <> (caller, spender) ->
+  before.allowance[(a.addr_owner, a.addr_spender)] = some(a)
+```
+
+<Separator />
+
+The added `allowance` record, if any, is the `caller` and `spender` one.
+
+```archetype {2,4}
+let some allowance_caller_spender = before.allowance[(caller, spender)] in
+  added.allowance.isempty()
+otherwise
+  added.allowance = [ { addr_owner = caller; addr_spender = spender; amount = value } ]
+```
+
+<Separator />
+
+No record is removed from allowance.
+
+```archetype
+removed.allowance.isempty()
+```
+
+### Explicit `fail`
+
+When the entry fails with message `"UnsafeAllowanceChange"`, `value` is strictly greater than 0 and the allowed amount of tokens spendable by `spender` on the behalf of `caller` is not equal to zero.
+
+```archetype
+fails with (msg : (string * nat)) :
+let some allowance_caller_spender = allowance[(caller,spender)] in
+  msg = ("UnsafeAllowanceChange", allowance_caller_spender.amount) and
+  value > 0 and
+  allowance_caller_spender.amount > 0
+otherwise false
+```
+
+<Separator />
+
+No operation generated.
+
+```archetype
+length(operations) = 0
+```
+
+## `getAllowance` getter
+
+```archetype
+getter getAllowance (owner : address, spender : address) : nat
+```
+
+<Separator />
+
+> No effect on `ledger`.
+
+```archetype
+ledger = before.ledger
+```
+
+<Separator />
+
+No effect on `allowance`.
+
+```archetype
+allowance = before.allowance
+```
+
+<Separator />
+
+No explicit fail. The entry implicitely fails though if the provided callback is invalid.
+
+<Separator />
+
+Creates one callback operation.
+
+```archetype
+length (operations) = 1
+```
+
+## `getBalance` getter
+
+```archetype
+getter getBalance (owner : address) : nat
+```
+
+<Separator />
+
+No effect on `ledger`.
+
+```archetype
+ledger = before.ledger
+```
+
+<Separator />
+
+No effect on `allowance`.
+
+```archetype
+allowance = before.allowance
+```
+
+<Seperator />
+
+No explicit fail. The entry implicitely fails though if the provided callback is invalid.
+
+<Separator />
+
+Creates one callback operation.
+
+```archetype
+length (operations) = 1
+```
+
+## `getTotalSupply` getter
+
+```archetype
+getter getTotalSupply () : nat
+```
+
+<Separator />
+
+No effect on `ledger`.
+
+```archetype
+ledger = before.ledger
+```
+
+<Separator />
+
+No effect on `allowance`.
+
+```archetype
+allowance = before.allowance
+```
+
+<Separator />
+
+No explicit fail. The entry implicitely fails though if the provided callback is invalid.
+
+<Separator />
+
+Creates one callback operation.
+
+```archetype
+length(operations) = 1
 ```
 

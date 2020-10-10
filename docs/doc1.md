@@ -1,20 +1,22 @@
 ---
 id: doc1
 title: FA 1.2
-sidebar_label: FA 1.2 implementation
+sidebar_label: Implementation
 slug: /
 ---
 
 FA 1.2 is the fungible [token specification](https://gitlab.com/tzip/tzip/blob/master/proposals/tzip-7/tzip-7.md) for Tezos.
 
 
-### totalsupply
+### `totalsupply`
 
 ```archetype
 constant totalsupply : nat = 10_000_000
 ```
 
-### ledger
+### `ledger`
+
+The `ledger` asset is the cap table: it holds the number of tokens for each token holder. `totalsupply` is the initial number of tokens held by the originator of the contract.
 
 ```archetype {1}
 asset ledger identified by holder to big_map {
@@ -25,7 +27,9 @@ asset ledger identified by holder to big_map {
 }
 ```
 
-### allowance
+### `allowance`
+
+The `allowance` asset stores the amount of tokens that can be spent by `addr_spender` on the behalf of addr_owner.
 
 ```archetype {1}
 asset allowance identified by addr_owner addr_spender to big_map {
@@ -35,7 +39,7 @@ asset allowance identified by addr_owner addr_spender to big_map {
 }
 ```
 
-### transfer
+### `transfer`
 
 ```archetype {1}
 entry %transfer (%from : address, %to : address, value : nat) {
@@ -54,7 +58,11 @@ entry %transfer (%from : address, %to : address, value : nat) {
 }
 ```
 
-### approve
+:::tip
+Note that this entry may be used to reset (to 0) the allowance value: if the declared `spender` calls the entry to transfer a number of tokens equal to the  allowed amount from the approver address (`%from`) to itself (`%to`).
+:::
+
+### `approve`
 
 ```archetype {1}
 entry approve(spender : address, value : nat) {
@@ -67,7 +75,7 @@ entry approve(spender : address, value : nat) {
 }
 ```
 
-### getAllowance
+### `getAllowance`
 
 ```archetype {1}
 getter getAllowance (owner : address, spender : address) : nat {
@@ -75,7 +83,7 @@ getter getAllowance (owner : address, spender : address) : nat {
 }
 ```
 
-### getBalance
+### `getBalance`
 
 ```archetype {1}
 getter getBalance (owner : address) : nat {
@@ -83,7 +91,7 @@ getter getBalance (owner : address) : nat {
 }
 ```
 
-### getTotalSupply
+### `getTotalSupply`
 
 ```archetype {1}
 getter getTotalSupply () : nat {

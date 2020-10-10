@@ -24,10 +24,10 @@
 		// For the list of keywords and operators,
 		// see: http://caml.inria.fr/pub/docs/manual-ocaml/lex.html#sec84
 		'declaration': /\b(?:constant|variable|asset|entry|function|getter|var|let some|specification|postcondition|record)\b/,
-		'keyword': /\b(?:as|require|effect|identified by|initialized by|assert|begin|end|do|done|else|otherwise|return|before|for|if|in|match|in|forall|exists|struct|then|to|while|with)\b/,
+		'keyword': /\b(?:as|require|effect|identified by|initialized by|assert|begin|end|do|done|else|otherwise|return|before|for|if|in|match|in|forall|added|removed|exists|struct|then|to|while|with|fails|operations)\b/,
 		'boolean': /\b(?:false|true)\b/,
 		// Custom operators are allowed
-		'operator': /:=|\+=|\-=|[=<>@^|&+\-*\/$%!?~][!$%&*+\-.\/:<=>?@^|~]*|\b(?:and|asr|land|lor|lsl|lsr|lxor|mod|or|update|addupdate|dofailif|dorequire|sum|fail|some)\b/,
+		'operator': /:=|\+=|\-=|[=<>@^|&+\-*\/$%!?~][!$%&*+\-.\/:<=>?@^|~]*|\b(?:and|asr|land|lor|lsl|lsr|lxor|mod|or|update|addupdate|dofailif|dorequire|sum|fail|some|isempty|length)\b/,
 		'punctuation': /[(){}\[\]|.,:;]|\b_\b/
 	};
 }(Prism));

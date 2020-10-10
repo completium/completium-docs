@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    "Verified Contracts": ['doc1', 'doc2', 'doc3'],
-    "Contract Library": ['mdx'],
+    "FA 1.2": ['doc1', 'doc2', 'doc3'],
+    "FA 2": ['mdx'],
   },
 };
