@@ -238,7 +238,7 @@ let some allowance_caller_spender = allowance[(caller,spender)] in
 otherwise false
 ```
 
-<Separator />
+### Operations
 
 No operation generated.
 
@@ -249,12 +249,12 @@ length(operations) = 0
 ## `getAllowance` getter
 
 ```archetype
-getter getAllowance (owner : address, spender : address) : nat
+specification getter getAllowance (owner : address, spender : address) : nat
 ```
 
 <Separator />
 
-> No effect on `ledger`.
+No effect on `ledger`.
 
 ```archetype
 ledger = before.ledger
@@ -283,7 +283,7 @@ length (operations) = 1
 ## `getBalance` getter
 
 ```archetype
-getter getBalance (owner : address) : nat
+specification getter getBalance (owner : address) : nat
 ```
 
 <Separator />
@@ -317,7 +317,7 @@ length (operations) = 1
 ## `getTotalSupply` getter
 
 ```archetype
-getter getTotalSupply () : nat
+specification getter getTotalSupply () : nat
 ```
 
 <Separator />
